@@ -1,4 +1,4 @@
-module pkg.hexaform.dev/protogen/eventstream
+module pkg.hexaform.dev/protogen
 
 go 1.25
 
