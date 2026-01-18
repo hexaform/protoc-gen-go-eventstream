@@ -20,7 +20,6 @@ message UserEvent {
 }
 ```
 
-
 This approach has clear benefits:
 
 - one schema per topic
@@ -43,7 +42,6 @@ This friction adds up quickly in event-driven systems.
 - unwrap the envelope back into the contained Protobuf event message
 - hide all Protobuf `oneof` implementation details from application code
 - allow producers and consumers to work directly with event message types, not envelope internals
-
 
 The result is an API that feels natural in Go and aligns with event-driven and DDD-style architectures.
 
@@ -82,7 +80,7 @@ dto := &pb.UserBanned{
   Reason: "violation",
 }
 
-msg := pb.NewUserEvent(dto)
+msg := pb.WrapEvent(dto)
 ```
 
 ### Consuming
@@ -113,24 +111,41 @@ switch event := msg.UnwrapEvent().(type) {
 
 ### Running code generation
 
+The `go-eventstream` plugin is designed to work **alongside** the standard Go Protobuf generator. Both plugins must write their output into the **same Go package** so that the generated helper code can reference the generated Protobuf types directly.
+
+If the outputs are split across different directories or packages, the generated code will not compile.
+
 #### With protoc
+
+When invoking `protoc` directly, make sure both plugins use the same output path and package options:
+
 ```bash
 protoc \
   --go_out=. \
+  --go_opt=paths=source_relative \
   --go-eventstream_out=. \
-  user_event.proto
+  --go-eventstream_opt=paths=source_relative \
+  user-events.proto
 ```
+
+Both `--go_out` and `--go-eventstream_out` point to the same destination, ensuring all generated files end up in the same package.
 
 #### With Buf
 
+When using Buf, the same rule applies: both plugins must emit code into the same output directory and therefore the same Go package.
+
 ```yaml
-version: v1
+version: v2
 plugins:
-- plugin: go
-  out: .
-- plugin: go-eventstream
-  out: .
+  - remote: buf.build/protocolbuffers/go
+    out: generated/go
+    opt: paths=source_relative
+  - local: protoc-gen-go-eventstream
+    out: generated/go
+    opt: paths=source_relative
 ```
+
+Using a shared output directory guarantees that the eventstream helpers and the Protobuf-generated types live in the same package and can work together without additional wiring or imports.
 
 ## When to Use This Plugin
 

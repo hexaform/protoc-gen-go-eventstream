@@ -1,4 +1,4 @@
-package generate
+package internal
 
 import "google.golang.org/protobuf/compiler/protogen"
 

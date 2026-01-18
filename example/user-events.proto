@@ -4,15 +4,15 @@ package user.events.v1;
 
 option go_package = "example.com/project/user/events/v1;pb";
 
-message UserEvent {
+message UserEvents {
   oneof event {
-    UserRegistered user_registered = 1;
-    UserBanned  user_banned  = 2;
-    AccountDeactivated account_deactivated = 3;
+    UserCreated created = 1;
+    UserBanned  banned  = 2;
+    UserDeleted deleted = 3;
   }
 }
 
-message UserRegistered {
+message UserCreated {
   int64 user_id = 1;
   string username = 2;
 }
@@ -22,6 +22,6 @@ message UserBanned {
   string reason = 2;
 }
 
-message AccountDeactivated {
+message UserDeleted {
   int64 user_id = 1;
 }
