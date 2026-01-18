@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package user.events.v1;
+
+option go_package = "example.com/project/user/events/v1;pb";
+
+message UserEvents {
+  oneof event {
+    UserCreated created = 1;
+    UserBanned  banned  = 2;
+    UserDeleted deleted = 3;
+  }
+}
+
+message UserCreated {
+  int64 user_id = 1;
+  string username = 2;
+}
+
+message UserBanned {
+  int64 user_id = 1;
+  string reason = 2;
+}
+
+message UserDeleted {
+  int64 user_id = 1;
+}
