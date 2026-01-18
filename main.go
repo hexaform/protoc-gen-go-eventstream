@@ -5,7 +5,7 @@ import (
 
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
-	"pkg.hexaform.dev/protogen/eventstream/internal"
+	"pkg.hexaform.dev/protogen/internal"
 )
 
 func main() {
