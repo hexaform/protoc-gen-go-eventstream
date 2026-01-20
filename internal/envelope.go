@@ -34,6 +34,9 @@ func isEnvelope(message *protogen.Message) bool {
 		return false
 	}
 	oneof := message.Oneofs[0]
+	if oneof.Desc.IsSynthetic() {
+		return false
+	}
 	for _, field := range oneof.Fields {
 		if isEventOneof(field) {
 			hasEventOneof = true
