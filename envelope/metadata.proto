@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package envelope;
+
+option go_package = "pkg.hexaform.dev/protogen/envelope;envelope";
+
+import "google/protobuf/timestamp.proto";
+
+// Standard metadata that can be attached to any event envelope message.
+message Metadata {
+  string event_id = 1;
+  google.protobuf.Timestamp occurred_at = 2;
+}
