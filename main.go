@@ -18,6 +18,11 @@ func main() {
 				continue
 			}
 
+			envelopeMessages := internal.FindEnvelopes(file)
+			if len(envelopeMessages) == 0 {
+				continue
+			}
+
 			filename := file.GeneratedFilenamePrefix + "-eventstream.pb.go"
 			output := &internal.OutputFile{
 				GeneratedFile: gen.NewGeneratedFile(filename, file.GoImportPath),
@@ -25,7 +30,7 @@ func main() {
 
 			output.GenerateHeader(file)
 
-			for _, msg := range file.Messages {
+			for _, msg := range envelopeMessages {
 				if len(msg.Oneofs) == 0 {
 					continue
 				}

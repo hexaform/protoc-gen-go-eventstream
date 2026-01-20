@@ -5,23 +5,30 @@ import (
 )
 
 const MetadataImportPath = protogen.GoImportPath("pkg.hexaform.dev/protogen/envelope")
+const MetadataGoName = "Metadata"
 
 func MetadataField(msg *protogen.Message) *protogen.Field {
 	for _, field := range msg.Fields {
-		if field.Message == nil {
-			return nil
+		if isMetadataField(field) {
+			return field
 		}
-
-		if field.Message.GoIdent.GoName != msg.GoIdent.GoName {
-			return nil
-		}
-
-		if field.Message.GoIdent.GoImportPath != MetadataImportPath {
-			return nil
-		}
-
-		return field
 	}
 
 	return nil
+}
+
+func isMetadataField(field *protogen.Field) bool {
+	if field.Message == nil {
+		return false
+	}
+
+	if field.Message.GoIdent.GoName != MetadataGoName {
+		return false
+	}
+
+	if field.Message.GoIdent.GoImportPath != MetadataImportPath {
+		return false
+	}
+
+	return true
 }

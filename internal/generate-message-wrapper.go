@@ -14,7 +14,7 @@ func (o *OutputFile) GenerateMessageWrapper(msg *protogen.Message, oneof *protog
 	o.P("func Wrap", oneof.GoName, "(e ", oneofOptionInterfaceName, ") *", msg.GoIdent.GoName, " {")
 	o.P("  return &", msg.GoIdent.GoName, "{")
 	if metadataField != nil {
-		metadataIdent := o.QualifiedGoIdent(MetadataImportPath.Ident("New" + msg.GoIdent.GoName))
+		metadataIdent := o.QualifiedGoIdent(MetadataImportPath.Ident("New" + MetadataGoName))
 		o.P("    ", metadataField.GoName, ": ", metadataIdent, "(),")
 	}
 	o.P("    ", oneof.GoName, ": e.", optionsWrapperMethodName, "(),")
