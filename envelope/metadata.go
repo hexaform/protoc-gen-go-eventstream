@@ -1,4 +1,4 @@
-package eventstream
+package envelope
 
 import (
 	"time"
@@ -7,10 +7,10 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func NewMessageMetadata() *MessageMetadata {
+func NewMetadata() *Metadata {
 	timestamp := time.Now()
 
-	return &MessageMetadata{
+	return &Metadata{
 		EventId: uuid.New().String(),
 		OccurredAt: &timestamppb.Timestamp{
 			Seconds: timestamp.Unix(),

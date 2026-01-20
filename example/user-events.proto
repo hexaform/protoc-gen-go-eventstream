@@ -2,12 +2,12 @@ syntax = "proto3";
 
 package user.events.v1;
 
-import "eventstream/message-metadata.proto";
+import "envelope/metadata.proto";
 
 option go_package = "example.com/project/user/events/v1;pb";
 
 message UserEvents {
-  eventstream.MessageMetadata metadata = 1;
+  envelope.Metadata metadata = 1;
   oneof event {
     UserCreated created = 2;
     UserBanned  banned  = 3;

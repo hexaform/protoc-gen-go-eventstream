@@ -4,7 +4,7 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
-const MetadataImportPath = protogen.GoImportPath("pkg.hexaform.dev/protogen/eventstream")
+const MetadataImportPath = protogen.GoImportPath("pkg.hexaform.dev/protogen/envelope")
 
 func MetadataField(msg *protogen.Message) *protogen.Field {
 	for _, field := range msg.Fields {
@@ -12,7 +12,7 @@ func MetadataField(msg *protogen.Message) *protogen.Field {
 			return nil
 		}
 
-		if field.Message.GoIdent.GoName != "MessageMetadata" {
+		if field.Message.GoIdent.GoName != msg.GoIdent.GoName {
 			return nil
 		}
 
