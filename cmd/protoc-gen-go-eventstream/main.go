@@ -5,6 +5,7 @@ import (
 
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/pluginpb"
 	"pkg.hexaform.dev/protogen/internal"
 )
 
@@ -14,7 +15,7 @@ func main() {
 
 	opts.Run(func(gen *protogen.Plugin) error {
 		gen.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		
+
 		for _, file := range gen.Files {
 			if !file.Generate {
 				continue
